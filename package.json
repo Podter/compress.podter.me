@@ -1,7 +1,9 @@
 {
   "name": "compress.podter.me",
-  "private": true,
+  "description": "A simple video compressor.",
   "version": "0.0.0",
+  "license": "MIT",
+  "author": "Podter",
   "type": "module",
   "scripts": {
     "dev": "vite",
