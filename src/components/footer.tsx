@@ -13,10 +13,10 @@ export default function Footer() {
           <Heart size={12} />
           <span className="font-medium">Made by Podter</span>
         </a>
-        <div className="flex items-center space-x-4 text-sm font-medium text-muted-foreground">
+        <div className="flex items-center space-x-[1.125rem] text-sm font-medium text-muted-foreground">
           <p>Powered by React and ffmpeg</p>
           <a
-            className="flex items-center space-x-1 transition-opacity hover:opacity-80"
+            className="flex items-center space-x-1.5 transition-opacity hover:opacity-80"
             href="https://github.com/Podter/compress.podter.me"
           >
             <GitHub className="inline" size={12} />
