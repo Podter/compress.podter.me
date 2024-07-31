@@ -3,11 +3,24 @@ import { useDropzone } from "react-dropzone";
 
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
+import { useFile } from "~/providers/file";
 
 export default function Upload() {
+  const { setFile } = useFile();
+
   const { isDragAccept, getRootProps, getInputProps, open } = useDropzone({
     noClick: true,
     noKeyboard: true,
+    accept: {
+      "video/*": [],
+    },
+    maxFiles: 1,
+    onDropAccepted: (files) => {
+      const file = files[0];
+      if (file) {
+        setFile(file);
+      }
+    },
   });
 
   return (
