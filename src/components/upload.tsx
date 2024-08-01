@@ -27,7 +27,7 @@ export default function Upload() {
     <div
       {...getRootProps({
         className: cn(
-          "mx-6 flex max-w-sm flex-col items-center space-y-6 rounded-lg bg-card p-8 text-card-foreground shadow-sm outline-dashed outline-2 outline-border",
+          "flex max-w-sm flex-col items-center space-y-6 rounded-lg bg-card p-8 text-card-foreground shadow-sm outline-dashed outline-2 outline-border",
           isDragAccept && "bg-accent transition-colors dark:bg-accent/50",
         ),
       })}
