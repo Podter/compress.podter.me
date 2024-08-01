@@ -10,8 +10,8 @@ export default function App() {
   return (
     <>
       <Header />
-        {file ? <Compress /> : <Upload />}
       <main className="container flex h-screen flex-col items-center justify-center">
+        {file ? <Compress file={file} /> : <Upload />}
       </main>
       <Footer />
     </>
