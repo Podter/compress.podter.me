@@ -1,7 +1,7 @@
+import type { FFmpeg } from "@ffmpeg/ffmpeg";
 import type { PropsWithChildren } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
-import { FFmpeg } from "@ffmpeg/ffmpeg";
-import { toBlobURL } from "@ffmpeg/util";
+import { createFFmpeg } from "@ffmpeg/ffmpeg";
 
 interface FFmpegContextType {
   ffmpeg: FFmpeg;
@@ -19,29 +19,15 @@ export function useFFmpeg() {
 }
 
 export function FFmpegProvider({ children }: PropsWithChildren) {
-  const [ffmpeg] = useState(() => new FFmpeg());
+  const [ffmpeg] = useState(() =>
+    createFFmpeg({
+      log: true,
+    }),
+  );
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    async function initFFmpeg() {
-      await ffmpeg.load({
-        coreURL: await toBlobURL(
-          `${baseURL}/ffmpeg-core.js`,
-          "text/javascript",
-        ),
-        wasmURL: await toBlobURL(
-          `${baseURL}/ffmpeg-core.wasm`,
-          "application/wasm",
-        ),
-        workerURL: await toBlobURL(
-          `${baseURL}/ffmpeg-core.worker.js`,
-          "text/javascript",
-        ),
-      });
-      setLoaded(true);
-    }
-
-    initFFmpeg();
+    ffmpeg.load().then(() => setLoaded(true));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -51,5 +37,3 @@ export function FFmpegProvider({ children }: PropsWithChildren) {
     </FFmpegContext.Provider>
   );
 }
-
-const baseURL = "https://unpkg.com/@ffmpeg/core-mt@0.12.6/dist/esm";
