@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { fetchFile } from "@ffmpeg/ffmpeg";
+import { useAtomValue } from "jotai";
 
-import { useFFmpeg } from "~/providers/ffmpeg";
+import { ffmpegAtom } from "~/lib/atoms";
 import { Progress } from "./ui/progress";
 import { Spinner } from "./ui/spinner";
 
@@ -10,7 +11,7 @@ interface CompressProps {
 }
 
 export default function Compress({ file }: CompressProps) {
-  const { ffmpeg } = useFFmpeg();
+  const ffmpeg = useAtomValue(ffmpegAtom);
 
   const [overrideSrc, setOverrideSrc] = useState<string | null>(null);
   const [progress, setProgress] = useState<number | null>(null);

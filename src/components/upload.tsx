@@ -1,12 +1,13 @@
+import { useSetAtom } from "jotai";
 import { UploadIcon } from "lucide-react";
 import { useDropzone } from "react-dropzone";
 
 import { Button } from "~/components/ui/button";
+import { originalFileAtom } from "~/lib/atoms";
 import { cn } from "~/lib/utils";
-import { useFile } from "~/providers/file";
 
 export default function Upload() {
-  const { setFile } = useFile();
+  const setFile = useSetAtom(originalFileAtom);
 
   const { isDragAccept, getRootProps, getInputProps, open } = useDropzone({
     noClick: true,

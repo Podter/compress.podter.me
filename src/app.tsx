@@ -1,20 +1,39 @@
+import { useEffect, useState } from "react";
+import { useAtomValue } from "jotai";
+
 import Compress from "./components/compress";
 import Footer from "./components/footer";
 import Header from "./components/header";
 import Upload from "./components/upload";
-import { useFFmpeg } from "./providers/ffmpeg";
-import { useFile } from "./providers/file";
+import { compressedFileAtom, ffmpegAtom, originalFileAtom } from "./lib/atoms";
 
 export default function App() {
-  const { loaded } = useFFmpeg();
-  const { file } = useFile();
+  const ffmpeg = useAtomValue(ffmpegAtom);
+
+  const originalFile = useAtomValue(originalFileAtom);
+  const compressedFile = useAtomValue(compressedFileAtom);
+
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    ffmpeg.load().then(() => setLoaded(true));
+  }, [ffmpeg]);
 
   return (
     <>
       <Header />
       <main className="container flex h-screen flex-col items-center justify-center">
         {/* TODO: add loading screen */}
-        {!loaded ? <></> : file ? <Compress file={file} /> : <Upload />}
+        {!loaded ? (
+          <></>
+        ) : originalFile ? (
+          <Compress file={originalFile} />
+        ) : compressedFile ? (
+          // TODO: add download button
+          <></>
+        ) : (
+          <Upload />
+        )}
       </main>
       <Footer />
     </>
