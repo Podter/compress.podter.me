@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { ArrowRight, Check, Download } from "lucide-react";
 
 import { Button } from "./ui/button";
@@ -23,6 +23,37 @@ export default function Save({ originalFile, compressedFile }: SaveProps) {
     () => ((1 - compressedFile.size / originalFile.size) * 100).toFixed(2),
     [compressedFile, originalFile],
   );
+
+  useEffect(() => {
+    import("js-confetti").then(({ default: JSConfetti }) => {
+      new JSConfetti().addConfetti({
+        confettiColors: [
+          "#ffc53d",
+          "#0090ff",
+          "#e93d82",
+          "#00a2c7",
+          "#46a758",
+          "#30a46c",
+          "#3e63dd",
+          "#5b5bd6",
+          "#29a383",
+          "#bdee63",
+          "#86ead4",
+          "#f76b15",
+          "#d6409f",
+          "#ab4aba",
+          "#8e4ec6",
+          "#e5484d",
+          "#e54666",
+          "#7ce2fe",
+          "#12a594",
+          "#e54d2e",
+          "#6e56cf",
+          "#ffe629",
+        ],
+      });
+    });
+  }, []);
 
   return (
     <>
