@@ -71,7 +71,7 @@ function Video({ file }: CompressProps) {
     <video
       className="max-h-[50vh] rounded-lg border shadow"
       src={URL.createObjectURL(file)}
-    ></video>
+    />
   );
 }
 
