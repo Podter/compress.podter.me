@@ -4,6 +4,7 @@ import { useAtomValue } from "jotai";
 import Compress from "./components/compress";
 import Footer from "./components/footer";
 import Header from "./components/header";
+import Save from "./components/save";
 import Upload from "./components/upload";
 import { compressedFileAtom, ffmpegAtom, originalFileAtom } from "./lib/atoms";
 
@@ -26,9 +27,8 @@ export default function App() {
         {/* TODO: add loading screen */}
         {!loaded ? (
           <></>
-        ) : compressedFile ? (
-          // TODO: add download button
-          <></>
+        ) : originalFile && compressedFile ? (
+          <Save originalFile={originalFile} compressedFile={compressedFile} />
         ) : originalFile ? (
           <Compress file={originalFile} />
         ) : (
