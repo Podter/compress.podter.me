@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { fetchFile } from "@ffmpeg/ffmpeg";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 
-import { ffmpegAtom } from "~/lib/atoms";
+import { compressedFileAtom, ffmpegAtom } from "~/lib/atoms";
 import { Progress } from "./ui/progress";
 import { Spinner } from "./ui/spinner";
 
@@ -12,8 +12,8 @@ interface CompressProps {
 
 export default function Compress({ file }: CompressProps) {
   const ffmpeg = useAtomValue(ffmpegAtom);
+  const setCompressedFile = useSetAtom(compressedFileAtom);
 
-  const [overrideSrc, setOverrideSrc] = useState<string | null>(null);
   const [progress, setProgress] = useState<number | null>(null);
 
   useEffect(() => {
@@ -35,15 +35,12 @@ export default function Compress({ file }: CompressProps) {
         "30",
         "-preset",
         "superfast",
-        "-progress",
-        "-",
         outName,
       );
 
       const data = ffmpeg.FS("readFile", outName);
       const blob = new Blob([data], { type: "video/mp4" });
-      const url = URL.createObjectURL(blob);
-      setOverrideSrc(url);
+      setCompressedFile(blob);
     }
 
     run();
@@ -52,11 +49,7 @@ export default function Compress({ file }: CompressProps) {
 
   return (
     <>
-      <video
-        src={overrideSrc ?? URL.createObjectURL(file)}
-        className="max-h-[50vh] rounded-lg border shadow"
-        controls
-      />
+      <VideoMemo file={file} />
       <div className="mt-6 flex w-full flex-col items-center space-y-4">
         <div className="flex flex-col space-y-2 text-center">
           <p className="flex items-center justify-center space-x-1.5">
@@ -72,3 +65,14 @@ export default function Compress({ file }: CompressProps) {
     </>
   );
 }
+
+function Video({ file }: CompressProps) {
+  return (
+    <video
+      className="max-h-[50vh] rounded-lg border shadow"
+      src={URL.createObjectURL(file)}
+    ></video>
+  );
+}
+
+const VideoMemo = memo(Video);

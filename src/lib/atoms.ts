@@ -8,4 +8,4 @@ export const ffmpegAtom = atom(() =>
 );
 
 export const originalFileAtom = atom<File | null>(null);
-export const compressedFileAtom = atom<File | null>(null);
+export const compressedFileAtom = atom<Blob | null>(null);

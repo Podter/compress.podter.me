@@ -26,11 +26,11 @@ export default function App() {
         {/* TODO: add loading screen */}
         {!loaded ? (
           <></>
-        ) : originalFile ? (
-          <Compress file={originalFile} />
         ) : compressedFile ? (
           // TODO: add download button
           <></>
+        ) : originalFile ? (
+          <Compress file={originalFile} />
         ) : (
           <Upload />
         )}
