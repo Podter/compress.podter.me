@@ -58,6 +58,7 @@ export default function Save({ originalFile, compressedFile }: SaveProps) {
         ],
       });
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
