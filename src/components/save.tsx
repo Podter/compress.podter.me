@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useAtomValue } from "jotai";
 import { ArrowRight, Check, Download } from "lucide-react";
 
@@ -12,6 +12,21 @@ interface SaveProps {
 
 export default function Save({ originalFile, compressedFile }: SaveProps) {
   const { trackEvent } = useAtomValue(plausibleAtom);
+
+  const { filename, url } = useMemo(() => {
+    const oldFilename = originalFile.name.replace(/\.[^/.]+$/, "");
+    const filename = `${oldFilename} (compressed).mp4`;
+    const url = URL.createObjectURL(compressedFile);
+    return { filename, url };
+  }, [originalFile, compressedFile]);
+
+  const download = useCallback(() => {
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    a.remove();
+  }, [filename, url]);
 
   const originalSize = useMemo(
     () => (originalFile.size / 1024 / 1024).toFixed(2),
@@ -68,8 +83,8 @@ export default function Save({ originalFile, compressedFile }: SaveProps) {
   return (
     <>
       <video
-        className="max-h-[50vh] rounded-lg border shadow"
-        src={URL.createObjectURL(compressedFile)}
+        className="max-h-[50vh] rounded-lg border bg-accent shadow"
+        src={url}
         controls
       />
       <div className="mt-6 flex flex-col space-y-3 text-center">
@@ -91,15 +106,9 @@ export default function Save({ originalFile, compressedFile }: SaveProps) {
           You can save the compressed video by clicking the save button below.
         </p>
         <div className="flex justify-center">
-          <Button asChild>
-            <a
-              href={URL.createObjectURL(compressedFile)}
-              download={"compressed-" + originalFile.name}
-              className="gap-2"
-            >
-              <span>Save video</span>
-              <Download size={16} />
-            </a>
+          <Button onClick={download}>
+            <span>Save video</span>
+            <Download size={16} />
           </Button>
         </div>
       </div>

@@ -1,7 +1,7 @@
-export const createPreview = (file: File, ratio: number) =>
+export const createPreview = (url: string, ratio: number) =>
   new Promise<string>((resolve, reject) => {
     const video = document.createElement("video");
-    video.setAttribute("src", URL.createObjectURL(file));
+    video.setAttribute("src", url);
     video.load();
 
     video.addEventListener("loadedmetadata", () => {

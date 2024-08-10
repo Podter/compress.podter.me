@@ -21,13 +21,14 @@ export default function Compress({ file }: CompressProps) {
 
   useEffect(() => {
     async function run() {
+      const fileUrl = URL.createObjectURL(file);
+
       ffmpeg.FS("writeFile", file.name, await fetchFile(file));
       ffmpeg.setProgress(({ ratio }) => {
         setProgress(ratio * 100);
-        createPreview(file, ratio).then(setPreview);
+        createPreview(fileUrl, ratio).then(setPreview);
       });
 
-      const outName = "compressed-" + file.name;
       await ffmpeg.run(
         "-i",
         file.name,
@@ -41,11 +42,13 @@ export default function Compress({ file }: CompressProps) {
         "30",
         "-preset",
         "superfast",
-        outName,
+        "out.mp4",
       );
 
-      const data = ffmpeg.FS("readFile", outName);
+      const data = ffmpeg.FS("readFile", "out.mp4");
       const blob = new Blob([data], { type: "video/mp4" });
+      ffmpeg.FS("unlink", file.name);
+      ffmpeg.FS("unlink", "out.mp4");
       setCompressedFile(blob);
     }
 
@@ -67,7 +70,10 @@ export default function Compress({ file }: CompressProps) {
 
   return (
     <>
-      <img className="max-h-[50vh] rounded-lg border shadow" src={preview} />
+      <img
+        className="max-h-[50vh] rounded-lg border bg-accent shadow"
+        src={preview}
+      />
       <div className="mt-6 flex w-full flex-col items-center space-y-4">
         <div className="flex flex-col space-y-2 text-center">
           <p className="flex items-center justify-center space-x-1.5">
