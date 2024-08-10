@@ -3,6 +3,8 @@
 The simplest video compressor on the internet. Built with React, FFmpeg and WebAssembly.
 Installable as a PWA on any device and works offline.
 
+![compress.podter.me - The simplest video compressor](docs/app.png)
+
 https://compress.podter.me
 
 ## Features
