@@ -30,8 +30,10 @@ export default function Save({ originalFile, compressedFile }: SaveProps) {
 
   useEffect(() => {
     trackEvent("Video compressed");
-    import("js-confetti").then(({ default: JSConfetti }) => {
-      new JSConfetti().addConfetti({
+    import("js-confetti").then(async ({ default: JSConfetti }) => {
+      const confetti = new JSConfetti();
+
+      await confetti.addConfetti({
         confettiColors: [
           "#ffc53d",
           "#0090ff",
@@ -57,6 +59,8 @@ export default function Save({ originalFile, compressedFile }: SaveProps) {
           "#ffe629",
         ],
       });
+
+      confetti.destroyCanvas();
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
