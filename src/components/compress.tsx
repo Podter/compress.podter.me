@@ -1,8 +1,9 @@
-import { memo, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchFile } from "@ffmpeg/ffmpeg";
 import { useAtomValue, useSetAtom } from "jotai";
 
 import { compressedFileAtom, ffmpegAtom } from "~/lib/atoms";
+import { createPreview } from "~/lib/create-preview";
 import { Progress } from "./ui/progress";
 import { Spinner } from "./ui/spinner";
 
@@ -15,11 +16,15 @@ export default function Compress({ file }: CompressProps) {
   const setCompressedFile = useSetAtom(compressedFileAtom);
 
   const [progress, setProgress] = useState<number | null>(null);
+  const [preview, setPreview] = useState("");
 
   useEffect(() => {
     async function run() {
       ffmpeg.FS("writeFile", file.name, await fetchFile(file));
-      ffmpeg.setProgress(({ ratio }) => setProgress(ratio * 100));
+      ffmpeg.setProgress(({ ratio }) => {
+        setProgress(ratio * 100);
+        createPreview(file, ratio).then(setPreview);
+      });
 
       const outName = "compressed-" + file.name;
       await ffmpeg.run(
@@ -49,7 +54,7 @@ export default function Compress({ file }: CompressProps) {
 
   return (
     <>
-      <VideoMemo file={file} />
+      <img className="max-h-[50vh] rounded-lg border shadow" src={preview} />
       <div className="mt-6 flex w-full flex-col items-center space-y-4">
         <div className="flex flex-col space-y-2 text-center">
           <p className="flex items-center justify-center space-x-1.5">
@@ -65,14 +70,3 @@ export default function Compress({ file }: CompressProps) {
     </>
   );
 }
-
-function Video({ file }: CompressProps) {
-  return (
-    <video
-      className="max-h-[50vh] rounded-lg border shadow"
-      src={URL.createObjectURL(file)}
-    />
-  );
-}
-
-const VideoMemo = memo(Video);
