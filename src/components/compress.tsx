@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchFile } from "@ffmpeg/ffmpeg";
 import { useAtomValue, useSetAtom } from "jotai";
 
-import { compressedFileAtom, ffmpegAtom } from "~/lib/atoms";
+import { compressedFileAtom, errorAtom, ffmpegAtom } from "~/lib/atoms";
 import { createPreview } from "~/lib/create-preview";
 import { Progress } from "./ui/progress";
 import { Spinner } from "./ui/spinner";
@@ -14,6 +14,7 @@ interface CompressProps {
 export default function Compress({ file }: CompressProps) {
   const ffmpeg = useAtomValue(ffmpegAtom);
   const setCompressedFile = useSetAtom(compressedFileAtom);
+  const setError = useSetAtom(errorAtom);
 
   const [progress, setProgress] = useState<number | null>(null);
   const [preview, setPreview] = useState("");
@@ -48,7 +49,10 @@ export default function Compress({ file }: CompressProps) {
       setCompressedFile(blob);
     }
 
-    run();
+    run().catch((error) => {
+      console.error(error);
+      setError(true);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

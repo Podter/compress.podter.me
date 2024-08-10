@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react";
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 
 import Compress from "./components/compress";
+import Error from "./components/error";
 import Footer from "./components/footer";
 import Header from "./components/header";
 import Loading from "./components/loading";
 import Save from "./components/save";
 import Upload from "./components/upload";
-import { compressedFileAtom, ffmpegAtom, originalFileAtom } from "./lib/atoms";
+import {
+  compressedFileAtom,
+  errorAtom,
+  ffmpegAtom,
+  originalFileAtom,
+} from "./lib/atoms";
 
 export default function App() {
   const ffmpeg = useAtomValue(ffmpegAtom);
+  const [error, setError] = useAtom(errorAtom);
 
   const originalFile = useAtomValue(originalFileAtom);
   const compressedFile = useAtomValue(compressedFileAtom);
@@ -18,14 +25,23 @@ export default function App() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    ffmpeg.load().then(() => setLoaded(true));
+    ffmpeg
+      .load()
+      .then(() => setLoaded(true))
+      .catch((error) => {
+        setError(error);
+        setError(true);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ffmpeg]);
 
   return (
     <>
       <Header />
       <main className="container flex h-screen flex-col items-center justify-center">
-        {!loaded ? (
+        {error ? (
+          <Error />
+        ) : !loaded ? (
           <Loading />
         ) : originalFile && compressedFile ? (
           <Save originalFile={originalFile} compressedFile={compressedFile} />
