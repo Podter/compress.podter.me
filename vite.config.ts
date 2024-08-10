@@ -21,7 +21,23 @@ export default defineConfig({
         theme_color: "#ffffff",
       },
       workbox: {
-        globPatterns: ["**/*.{js,css,html,svg,png,ico}"],
+        globPatterns: ["**/*.{js,css,html,svg,png,ico,wasm}"],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/unpkg\.com\/@ffmpeg\/core@0\.11\.0\/.*$/,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "ffmpeg-cache",
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365,
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+        ],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
       },
