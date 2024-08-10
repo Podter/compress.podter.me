@@ -4,6 +4,7 @@ import { Moon, Sun } from "lucide-react";
 
 import { themeAtom } from "~/lib/atoms";
 import { Button } from "./ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 const storageKey = "theme";
 
@@ -29,20 +30,27 @@ export default function ThemeSwitch() {
   }, [theme]);
 
   return (
-    <Button
-      size="icon"
-      variant="ghost"
-      onClick={() =>
-        setTheme((prevTheme) => {
-          const newTheme = prevTheme === "light" ? "dark" : "light";
-          localStorage.setItem(storageKey, newTheme);
-          return newTheme;
-        })
-      }
-    >
-      <Sun size={18} className="dark:hidden" />
-      <Moon size={18} className="hidden dark:block" />
-      <span className="sr-only">Toggle theme</span>
-    </Button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          size="icon"
+          variant="ghost"
+          onClick={() =>
+            setTheme((prevTheme) => {
+              const newTheme = prevTheme === "light" ? "dark" : "light";
+              localStorage.setItem(storageKey, newTheme);
+              return newTheme;
+            })
+          }
+        >
+          <Sun size={18} className="dark:hidden" />
+          <Moon size={18} className="hidden dark:block" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <span>Toggle theme</span>
+      </TooltipContent>
+    </Tooltip>
   );
 }
