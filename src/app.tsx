@@ -7,6 +7,7 @@ import Footer from "./components/footer";
 import Header from "./components/header";
 import Loading from "./components/loading";
 import Save from "./components/save";
+import { Toaster } from "./components/ui/sonner";
 import Upload from "./components/upload";
 import {
   compressedFileAtom,
@@ -52,6 +53,7 @@ export default function App() {
         )}
       </main>
       <Footer />
+      <Toaster />
     </>
   );
 }
