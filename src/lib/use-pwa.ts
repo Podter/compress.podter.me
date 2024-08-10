@@ -17,8 +17,13 @@ export function usePWA() {
   useEffect(() => {
     if (offlineReady) {
       toast("App ready to work offline", {
-        onDismiss: closeToast,
         id: "offline-ready",
+        onDismiss: closeToast,
+        onAutoClose: closeToast,
+        action: {
+          label: "Close",
+          onClick: closeToast,
+        },
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -27,11 +32,11 @@ export function usePWA() {
   useEffect(() => {
     if (needRefresh) {
       toast("New content available, click on reload button to update.", {
+        id: "new-content",
         action: {
           label: "Reload",
           onClick: () => updateServiceWorker(true),
         },
-        id: "new-content",
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
