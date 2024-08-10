@@ -15,8 +15,11 @@ import {
   ffmpegAtom,
   originalFileAtom,
 } from "./lib/atoms";
+import { usePWA } from "./lib/use-pwa";
 
 export default function App() {
+  usePWA();
+
   const ffmpeg = useAtomValue(ffmpegAtom);
   const [error, setError] = useAtom(errorAtom);
 

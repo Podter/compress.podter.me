@@ -9,6 +9,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "prompt",
+      injectRegister: false,
       pwaAssets: {
         disabled: false,
         config: true,
@@ -25,7 +26,7 @@ export default defineConfig({
         clientsClaim: true,
       },
       devOptions: {
-        enabled: true,
+        enabled: false,
         navigateFallback: "index.html",
         suppressWarnings: true,
         type: "module",

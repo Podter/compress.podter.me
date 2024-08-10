@@ -50,7 +50,8 @@
     "typescript": "^5.5.4",
     "vite": "^5.3.5",
     "vite-plugin-pwa": "^0.20.1",
-    "workbox-core": "^7.1.0"
+    "workbox-core": "^7.1.0",
+    "workbox-window": "^7.1.0"
   },
   "resolutions": {
     "sharp": "0.32.6",
