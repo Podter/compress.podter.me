@@ -56,6 +56,15 @@ export default function Compress({ file }: CompressProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    function handleUnload(e: BeforeUnloadEvent) {
+      e.preventDefault();
+    }
+
+    window.addEventListener("beforeunload", handleUnload);
+    return () => window.removeEventListener("beforeunload", handleUnload);
+  }, []);
+
   return (
     <>
       <img className="max-h-[50vh] rounded-lg border shadow" src={preview} />
