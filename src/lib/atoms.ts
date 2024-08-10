@@ -13,7 +13,6 @@ export const plausibleAtom = atom(() =>
   Plausible({
     domain: "compress.podter.me",
     apiHost: "https://plausible.podter.me",
-    trackLocalhost: true,
   }),
 );
 
