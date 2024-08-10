@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useAtom } from "jotai";
 import { Moon, Sun } from "lucide-react";
 
+import { themeAtom } from "~/lib/atoms";
 import { Button } from "./ui/button";
-
-type Theme = "dark" | "light" | "system";
 
 const storageKey = "theme";
 
 export default function ThemeSwitch() {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || "system",
-  );
+  const [theme, setTheme] = useAtom(themeAtom);
 
   useEffect(() => {
     const root = window.document.documentElement;
