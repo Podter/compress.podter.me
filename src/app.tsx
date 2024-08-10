@@ -28,7 +28,6 @@ export default function App() {
   const compressedFile = useAtomValue(compressedFileAtom);
 
   const [loaded, setLoaded] = useState(false);
-
   useEffect(() => {
     ffmpeg
       .load()
