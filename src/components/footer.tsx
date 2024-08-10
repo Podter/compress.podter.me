@@ -4,7 +4,7 @@ import GitHub from "./icons/github";
 
 export default function Footer() {
   return (
-    <footer className="fixed bottom-0 z-50 flex w-full justify-center bg-background">
+    <footer className="fixed bottom-0 z-50 flex w-full justify-center bg-background min-[1400px]:bg-transparent">
       <div className="container flex w-full flex-col items-center justify-between space-y-1 border-t py-[14px] sm:flex-row">
         <a
           className="flex items-center space-x-1.5 text-sm text-muted-foreground transition-opacity hover:opacity-80"

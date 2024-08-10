@@ -54,6 +54,6 @@
     @apply border-border;
   }
   body {
-    @apply bg-background font-sans text-foreground antialiased;
+    @apply bg-grid-small-[#E5E5E5] dark:bg-grid-small-[#262626] bg-background font-sans text-foreground antialiased;
   }
 }
