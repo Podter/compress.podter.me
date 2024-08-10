@@ -8,7 +8,8 @@ export default function Loading() {
         <span>Loading ffmpeg...</span>
       </p>
       <p className="text-sm text-muted-foreground">
-        This may take a while depending on your internet connection.
+        This may take a while. ffmpeg needs to be loaded before you can start
+        compressing videos.
       </p>
     </div>
   );
