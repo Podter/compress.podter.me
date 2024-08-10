@@ -1,6 +1,8 @@
 import { useEffect, useMemo } from "react";
+import { useAtomValue } from "jotai";
 import { ArrowRight, Check, Download } from "lucide-react";
 
+import { plausibleAtom } from "~/lib/atoms";
 import { Button } from "./ui/button";
 
 interface SaveProps {
@@ -9,6 +11,8 @@ interface SaveProps {
 }
 
 export default function Save({ originalFile, compressedFile }: SaveProps) {
+  const { trackEvent } = useAtomValue(plausibleAtom);
+
   const originalSize = useMemo(
     () => (originalFile.size / 1024 / 1024).toFixed(2),
     [originalFile],
@@ -25,6 +29,7 @@ export default function Save({ originalFile, compressedFile }: SaveProps) {
   );
 
   useEffect(() => {
+    trackEvent("Video compressed");
     import("js-confetti").then(({ default: JSConfetti }) => {
       new JSConfetti().addConfetti({
         confettiColors: [

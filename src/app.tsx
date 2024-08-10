@@ -14,6 +14,7 @@ import {
   errorAtom,
   ffmpegAtom,
   originalFileAtom,
+  plausibleAtom,
 } from "./lib/atoms";
 import { usePWA } from "./lib/use-pwa";
 
@@ -38,6 +39,17 @@ export default function App() {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ffmpeg]);
+
+  const { enableAutoPageviews, enableAutoOutboundTracking } =
+    useAtomValue(plausibleAtom);
+  useEffect(() => {
+    const cleanupPageviews = enableAutoPageviews();
+    const cleanupOutbound = enableAutoOutboundTracking();
+    return () => {
+      cleanupPageviews();
+      cleanupOutbound();
+    };
+  }, [enableAutoPageviews, enableAutoOutboundTracking]);
 
   return (
     <>

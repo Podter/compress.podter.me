@@ -1,10 +1,19 @@
 import { createFFmpeg } from "@ffmpeg/ffmpeg";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
+import Plausible from "plausible-tracker";
 
 export const ffmpegAtom = atom(() =>
   createFFmpeg({
     log: true,
+  }),
+);
+
+export const plausibleAtom = atom(() =>
+  Plausible({
+    domain: "compress.podter.me",
+    apiHost: "https://plausible.podter.me",
+    trackLocalhost: true,
   }),
 );
 
