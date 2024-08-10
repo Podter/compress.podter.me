@@ -106,7 +106,7 @@ export default function Save({ originalFile, compressedFile }: SaveProps) {
           You can save the compressed video by clicking the save button below.
         </p>
         <div className="flex justify-center">
-          <Button onClick={download}>
+          <Button className="gap-2" onClick={download}>
             <span>Save video</span>
             <Download size={16} />
           </Button>
