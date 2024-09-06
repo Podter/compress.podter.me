@@ -9,6 +9,14 @@ import { Provider as JotaiProvider } from "jotai";
 import App from "./app";
 import { TooltipProvider } from "./components/ui/tooltip";
 
+declare global {
+  interface Window {
+    umami: {
+      track: (event: string, data?: unknown) => void;
+    };
+  }
+}
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   React.createElement(JotaiProvider, {
     children: React.createElement(TooltipProvider, {

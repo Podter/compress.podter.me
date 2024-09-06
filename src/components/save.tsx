@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { useAtomValue } from "jotai";
 import { ArrowRight, Check, Download } from "lucide-react";
 
-import { plausibleAtom } from "~/lib/atoms";
 import { Button } from "./ui/button";
 
 interface SaveProps {
@@ -11,8 +9,6 @@ interface SaveProps {
 }
 
 export default function Save({ originalFile, compressedFile }: SaveProps) {
-  const { trackEvent } = useAtomValue(plausibleAtom);
-
   const { filename, url } = useMemo(() => {
     const oldFilename = originalFile.name.replace(/\.[^/.]+$/, "");
     const filename = `${oldFilename} (compressed).mp4`;
@@ -44,7 +40,7 @@ export default function Save({ originalFile, compressedFile }: SaveProps) {
   );
 
   useEffect(() => {
-    trackEvent("Video compressed");
+    window.umami.track("Video compressed");
     import("js-confetti").then(async ({ default: JSConfetti }) => {
       const confetti = new JSConfetti();
 
@@ -77,7 +73,6 @@ export default function Save({ originalFile, compressedFile }: SaveProps) {
 
       confetti.destroyCanvas();
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
