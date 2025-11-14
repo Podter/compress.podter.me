@@ -11,7 +11,7 @@ import { TooltipProvider } from "./components/ui/tooltip";
 
 declare global {
   interface Window {
-    umami: {
+    umami?: {
       track: (event: string, data?: unknown) => void;
     };
   }

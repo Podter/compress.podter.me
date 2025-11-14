@@ -40,7 +40,14 @@ export default function Save({ originalFile, compressedFile }: SaveProps) {
   );
 
   useEffect(() => {
-    window.umami.track("Video compressed");
+    if (window.umami) {
+      try {
+        window.umami.track("Video compressed");
+      } catch {
+        // empty
+      }
+    }
+
     import("js-confetti").then(async ({ default: JSConfetti }) => {
       const confetti = new JSConfetti();
 
