@@ -1,0 +1,8 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "video-compressor",
+  "compatibility_date": "2026-01-20",
+  "assets": {
+    "directory": "./dist",
+  }
+}

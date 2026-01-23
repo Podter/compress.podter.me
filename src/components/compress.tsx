@@ -46,7 +46,7 @@ export default function Compress({ file }: CompressProps) {
       );
 
       const data = ffmpeg.FS("readFile", "out.mp4");
-      const blob = new Blob([data], { type: "video/mp4" });
+      const blob = new Blob([new Uint8Array(data)], { type: "video/mp4" });
       ffmpeg.FS("unlink", file.name);
       ffmpeg.FS("unlink", "out.mp4");
       setCompressedFile(blob);
